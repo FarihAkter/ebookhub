@@ -1,0 +1,13 @@
+<resources>
+    <!-- App Name -->
+    <string name="app_name">JUeBOOKHub</string>
+
+    <!-- Login Button Text -->
+    <string name="login_button_text">Login</string>
+
+    <!-- Password Hint Text -->
+    <string name="password_hint">Enter your password</string>
+    <string name="email_hint">Enter your email</string>
+    <string name="Register">Register</string>
+
+</resources>

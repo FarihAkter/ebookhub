@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "821081712174",
+    "project_id": "ebookhub-eeea8",
+    "storage_bucket": "ebookhub-eeea8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:821081712174:android:431405e433e8d3ca3ce1bf",
+        "android_client_info": {
+          "package_name": "com.example.jubookhub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC89e0beLaRXTnPlvGj1y6uJZTf-6FFx58"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
