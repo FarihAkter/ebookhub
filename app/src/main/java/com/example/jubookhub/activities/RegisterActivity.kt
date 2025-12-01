@@ -2,29 +2,19 @@ package com.example.jubookhub.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,7 +33,12 @@ class RegistrationActivity : ComponentActivity() {
         db = FirebaseFirestore.getInstance()
 
         setContent {
-            RegistrationScreen()
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background
+            ) {
+                RegistrationScreen()
+            }
         }
     }
 
@@ -63,168 +58,174 @@ class RegistrationActivity : ComponentActivity() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Registration Form", fontSize = 24.sp)
+            Text(
+                "Registration Form",
+                fontSize = 24.sp,
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
+            // Name input field with an icon
             OutlinedTextField(
                 value = fullName,
                 onValueChange = { fullName = it },
                 label = { Text("Full Name") },
-                modifier = Modifier.fillMaxWidth(),
-                isError = errorMessage.isNotEmpty() && fullName.isEmpty()
+                leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                shape = MaterialTheme.shapes.medium,
+                singleLine = true
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
+            // Student ID input field with an icon
             OutlinedTextField(
                 value = studentId,
                 onValueChange = { studentId = it },
                 label = { Text("Student ID") },
-                modifier = Modifier.fillMaxWidth(),
-                isError = errorMessage.isNotEmpty() && studentId.isEmpty()
+                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                shape = MaterialTheme.shapes.medium,
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
+            // Email input field with an icon
             OutlinedTextField(
                 value = eduEmail,
                 onValueChange = { eduEmail = it },
                 label = { Text("EDU Email") },
-                modifier = Modifier.fillMaxWidth(),
-                isError = errorMessage.isNotEmpty() && eduEmail.isEmpty()
+                leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                shape = MaterialTheme.shapes.medium,
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
+            // Password input field with an icon
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
                 label = { Text("Password") },
+                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
                 visualTransformation = PasswordVisualTransformation(),
-                modifier = Modifier.fillMaxWidth(),
-                isError = errorMessage.isNotEmpty() && password.length < 6
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                shape = MaterialTheme.shapes.medium,
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
+            // Display error message if any
+            if (errorMessage.isNotEmpty()) {
+                Text(errorMessage, color = MaterialTheme.colorScheme.error)
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+
+            // Show loading indicator if in progress
             if (isLoading) {
                 CircularProgressIndicator()
             } else {
+                // Register button with a modern design
                 Button(
                     onClick = {
-                        // Input validation
                         if (fullName.isBlank() || studentId.isBlank() || eduEmail.isBlank() || password.isBlank()) {
                             errorMessage = "All fields are required"
-                            return@Button
+                        } else {
+                            errorMessage = ""
+                            performRegistration(
+                                fullName.trim(),
+                                studentId.trim(),
+                                eduEmail.trim(),
+                                password.trim()
+                            ) { isLoading = it }
                         }
-                        registerUser(
-                            fullName.trim(),
-                            studentId.trim(),
-                            eduEmail.trim(),
-                            password.trim()
-                        ) { isLoading = it }
-                    }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .height(50.dp),
+                    shape = MaterialTheme.shapes.medium,
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
                 ) {
-                    Text("Register")
+                    Text("Register", color = Color.White, style = MaterialTheme.typography.bodyLarge)
                 }
-            }
-
-            if (errorMessage.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(errorMessage, color = MaterialTheme.colorScheme.error)
             }
         }
     }
 
-    private fun registerUser(
+    private fun performRegistration(
         fullName: String,
         studentId: String,
         eduEmail: String,
         password: String,
         setLoading: (Boolean) -> Unit
     ) {
-        // Input Validation
-        if (fullName.isEmpty()) return showToast("Full name is required")
-        if (studentId.isEmpty()) return showToast("Student ID is required")
-        if (studentId.length != 9) return showToast("Invalid student ID (must be 9 digits)")
-        if (eduEmail.isEmpty()) return showToast("EDU email is required")
-
-        if (!eduEmail.endsWith("@juniv.edu") &&
-            !eduEmail.endsWith("@student.juniv.edu") &&
-            !eduEmail.endsWith("@ju.edu.bd")) {
-            return showToast("Use your official EDU email")
+        if (studentId.length != 9) {
+            showToast("Student ID must be 9 digits")
+            return
+        }
+        if (!eduEmail.contains("@")) {
+            showToast("Invalid email")
+            return
         }
 
-        if (password.length < 6) return showToast("Password must be at least 6 characters")
+        if (password.length < 6) {
+            showToast("Password must be at least 6 chars")
+            return
+        }
 
         setLoading(true)
-        Log.d("Registration", "Starting registration for $eduEmail")
 
-        // Firebase Register
         auth.createUserWithEmailAndPassword(eduEmail, password)
             .addOnCompleteListener { task ->
-                setLoading(false) // Stop loading once the task finishes
+                if (task.isSuccessful) {
+                    val userId = auth.currentUser?.uid
+                    if (userId != null) {
+                        val userMap = hashMapOf(
+                            "name" to fullName,
+                            "student_id" to studentId,
+                            "email" to eduEmail,
+                            "role" to "student"
+                        )
 
-                if (!task.isSuccessful) {
-                    Log.e("Registration", "Auth failed", task.exception)
-                    return@addOnCompleteListener showToast(
-                        "Registration failed: ${task.exception?.message}"
-                    )
-                }
-
-                Log.d("Registration", "Auth successful, user: ${auth.currentUser?.uid}")
-
-                // SAFELY get user
-                val userId = auth.currentUser?.uid
-                if (userId == null) {
-                    return@addOnCompleteListener showToast("Unexpected Error! Try again.")
-                }
-
-                val userData = hashMapOf(
-                    "name" to fullName,
-                    "student_id" to studentId,
-                    "email" to eduEmail,
-                    "role" to "student"
-                )
-
-                Log.d("Registration", "Saving to Firestore...")
-
-                // Save Firestore Data
-                db.collection("users").document(userId)
-                    .set(userData)
-                    .addOnSuccessListener {
-                        Log.d("Registration", "Firestore save successful")
-
-                        // Send email verification
-                        auth.currentUser?.sendEmailVerification()
-                            ?.addOnCompleteListener { emailTask ->
-
-                                if (emailTask.isSuccessful) {
-                                    showToast("Registration Successful! Verify your email.")
-
-                                    // SAFELY navigate
-                                    try {
-                                        startActivity(Intent(this, LoginActivity::class.java))
-                                        finish() // Close the RegistrationActivity
-                                    } catch (e: Exception) {
-                                        Log.e("Registration", "Navigation failed", e)
-                                    }
-
-                                } else {
-                                    Log.e("Registration", "Email sending failed", emailTask.exception)
-                                    showToast("Error sending verification email.")
-                                }
+                        db.collection("users").document(userId)
+                            .set(userMap)
+                            .addOnSuccessListener {
+                                setLoading(false)
+                                showToast("Registration Successful! Verify email.")
+                                auth.currentUser?.sendEmailVerification()
+                                startActivity(Intent(this, LoginActivity::class.java))
+                                finish()
+                            }
+                            .addOnFailureListener { e ->
+                                setLoading(false)
+                                showToast("Database Error: ${e.message}")
                             }
                     }
-                    .addOnFailureListener {
-                        Log.e("Registration", "Firestore save failed", it)
-                        showToast("Error saving user data: ${it.message}")
-                    }
+                } else {
+                    setLoading(false)
+                    showToast("Registration Failed: ${task.exception?.message}")
+                }
             }
     }
 
-    private fun showToast(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
