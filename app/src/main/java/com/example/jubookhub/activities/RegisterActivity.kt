@@ -8,7 +8,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -67,81 +69,94 @@ class RegistrationActivity : ComponentActivity() {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Name input field with an icon
+            // Name input field
             OutlinedTextField(
                 value = fullName,
                 onValueChange = { fullName = it },
                 label = { Text("Full Name") },
-                leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
+                leadingIcon = { Icon(Icons.Filled.Person, contentDescription = null) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
                 shape = MaterialTheme.shapes.medium,
-                singleLine = true
+                singleLine = true,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF6200EE),
+                    unfocusedBorderColor = Color(0xFFBB86FC)
+                )
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Student ID input field with an icon
+            // Student ID input field
             OutlinedTextField(
                 value = studentId,
                 onValueChange = { studentId = it },
                 label = { Text("Student ID") },
-                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
+                leadingIcon = { Icon(Icons.Filled.Lock, contentDescription = null) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
                 shape = MaterialTheme.shapes.medium,
                 singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF6200EE),
+                    unfocusedBorderColor = Color(0xFFBB86FC)
+                )
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Email input field with an icon
+            // Email input field
             OutlinedTextField(
                 value = eduEmail,
                 onValueChange = { eduEmail = it },
                 label = { Text("EDU Email") },
-                leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) },
+                leadingIcon = { Icon(Icons.Filled.Email, contentDescription = null) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
                 shape = MaterialTheme.shapes.medium,
                 singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF6200EE),
+                    unfocusedBorderColor = Color(0xFFBB86FC)
+                )
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Password input field with an icon
+            // Password input field
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
                 label = { Text("Password") },
-                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
+                leadingIcon = { Icon(Icons.Filled.Lock, contentDescription = null) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
                 shape = MaterialTheme.shapes.medium,
                 singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF6200EE),
+                    unfocusedBorderColor = Color(0xFFBB86FC)
+                )
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Display error message if any
             if (errorMessage.isNotEmpty()) {
                 Text(errorMessage, color = MaterialTheme.colorScheme.error)
                 Spacer(modifier = Modifier.height(12.dp))
             }
 
-            // Show loading indicator if in progress
             if (isLoading) {
                 CircularProgressIndicator()
             } else {
-                // Register button with a modern design
                 Button(
                     onClick = {
                         if (fullName.isBlank() || studentId.isBlank() || eduEmail.isBlank() || password.isBlank()) {
@@ -161,9 +176,12 @@ class RegistrationActivity : ComponentActivity() {
                         .padding(8.dp)
                         .height(50.dp),
                     shape = MaterialTheme.shapes.medium,
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF6200EE),
+                        contentColor = Color.White
+                    )
                 ) {
-                    Text("Register", color = Color.White, style = MaterialTheme.typography.bodyLarge)
+                    Text("Register", style = MaterialTheme.typography.bodyLarge)
                 }
             }
         }
