@@ -32,10 +32,10 @@ fun YearMaterialScreen(navController: NavController, year: Int) {
 
         // Display materials for the selected year
         // This now uses the shared BookItem from BookItem.kt
-        BookItem(bookTitle = "Book Title for Year $year", author = "Author $year")
-        BookItem(bookTitle = "Handouts for Year $year", author = "Author $year")
-        BookItem(bookTitle = "Previous Year Questions for Year $year", author = "Author $year")
-        BookItem(bookTitle = "Slides for Year $year", author = "Author $year")
+        BookItem(bookTitle = "Books", author = "Author $year")
+        BookItem(bookTitle = "Handouts", author = "Author $year")
+        BookItem(bookTitle = "Previous Year Questions", author = "Author")
+        BookItem(bookTitle = "Slides", author = "Author")
 
         Spacer(modifier = Modifier.height(20.dp))
 
