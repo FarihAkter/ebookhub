@@ -74,7 +74,10 @@ dependencies {
 
     // Image loading library - Coil for Compose
     implementation("io.coil-kt:coil-compose:2.7.0")
-    implementation(libs.androidx.material3)                   // Coil for Compose (image loading)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.compose.animation.core)                   // Coil for Compose (image loading)
 
     // Testing dependencies
     testImplementation(libs.junit)                                   // JUnit for unit testing
